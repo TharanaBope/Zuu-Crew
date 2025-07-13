@@ -1,9 +1,9 @@
-numpy
-pandas
-matplotlib
+numpy #numerical operations
+pandas #data manipulation
+matplotlib 
 seaborn
-scikit-learn
-openai
-groq
+scikit-learn #models&data preprocessing
+openai #EDA Processing
+groq #EDA Processing
 dotenv
 
