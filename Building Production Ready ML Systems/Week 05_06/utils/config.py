@@ -1,3 +1,4 @@
+# config.py defines the configuration loading and utility functions
 import os
 import yaml
 import logging
