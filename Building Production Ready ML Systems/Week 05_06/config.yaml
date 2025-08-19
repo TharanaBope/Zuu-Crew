@@ -1,3 +1,4 @@
+# config.yaml defines the configuration for the churn analysis pipeline
 data_paths:
   raw_data: "data/raw/ChurnModelling.csv"
   processed_data: "data/processed/ChurnModelling_Missing_Values_Handled.csv"
