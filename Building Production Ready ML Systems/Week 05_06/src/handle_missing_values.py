@@ -10,37 +10,43 @@ logging.basicConfig(level=logging.INFO, format=
     '%(asctime)s - %(levelname)s - %(message)s')
 load_dotenv()
 
-
+# creating abstract class for missing value handling strategies
 class MissingValueHandlingStrategy(ABC):
     @abstractmethod
     def handle(self, df: pd.DataFrame) ->pd.DataFrame:
         pass
-
+# Creating strategy for dropping missing values
 class DropMissingValuesStrategy(MissingValueHandlingStrategy):
+    # Constructor for DropMissingValuesStrategy
     def __init__(self, critical_columns=[]):
         self.critical_columns = critical_columns 
         logging.info(f"Dropping rows with missing values in critical columns: {self.critical_columns}")
 
+    # Handle missing values by dropping rows
     def handle(self, df):
         df_cleaned = df.dropna(subset=self.critical_columns)
         n_dropped = len(df) - len(df_cleaned)
         logging.info(f"{n_dropped} has been dropped")
         return df_cleaned
 
+# Creating strategy for filling missing values
 class Gender(str, Enum):
     MALE = 'Male'
     FEMALE = 'Female'
 
-
+# Creating a model for gender prediction
 class GenderPrediction(BaseModel):
     firstname: str
     lastname: str
     pred_gender: Gender
 
+# Creating a gender imputer
 class GenderImputer: 
+    # Constructor for GenderImputer
     def __init__(self):
         self.groq_client = groq.Groq()
 
+    # Predict gender based on first name and last name using Groq
     def _predict_gender(self, firstname, lastname):
         prompt = f"""
             What is the most likely gender (Male or Female) for someone with the first name '{firstname}'
@@ -56,7 +62,8 @@ class GenderImputer:
         prediction = GenderPrediction(firstname=firstname, lastname=lastname, pred_gender=predicted_gender)
         logging.info(f'Predicted gender for {firstname} {lastname}: {prediction}')
         return prediction.pred_gender
-    
+
+    # Impute missing gender values in the DataFrame
     def impute(self, df):
         missing_gender_index = df['Gender'].isnull()
         for idx in df[missing_gender_index].index:
@@ -71,12 +78,14 @@ class GenderImputer:
                 print(f"{first_name} {last_name} : No Gender Detected")
 
         return df
-    
+
+# Creating a strategy for filling missing values    
 class FillMissingValuesStrategy(MissingValueHandlingStrategy):
     """ 
     Missing -> Mean (Age)
             -> Custom (Gender)
     """
+    # Constructor for FillMissingValuesStrategy
     def __init__(
                 self, 
                 method='mean', 
@@ -91,6 +100,7 @@ class FillMissingValuesStrategy(MissingValueHandlingStrategy):
         self.is_custom_imputer = is_custom_imputer
         self.custom_imputer = custom_imputer
 
+    # Handle missing values
     def handle(self, df):
         if self.is_custom_imputer:
             return self.custom_imputer.impute(df)
