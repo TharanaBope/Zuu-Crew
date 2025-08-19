@@ -4,11 +4,13 @@ from abc import ABC, abstractmethod
 logging.basicConfig(level=logging.INFO, format=
     '%(asctime)s - %(levelname)s - %(message)s')
 
+# creating abstract class for outlier detection strategies
 class OutlierDetectionStrategy(ABC):
     @abstractmethod
     def detect_outliers(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
         pass
 
+# implementing IQR outlier detection
 class IQROutlierDetection(OutlierDetectionStrategy):
     def detect_outliers(self, df, columns):
         outliers =pd.DataFrame(False, index=df.index, columns=columns)
@@ -24,12 +26,15 @@ class IQROutlierDetection(OutlierDetectionStrategy):
         return outliers
 
 class OutlierDetector:
+    # Constructor for OutlierDetector
     def __init__(self, strategy):
         self._strategy = strategy
 
+    # Detect outliers in the DataFrame
     def detect_outliers(self, df, selected_columns):
         return self._strategy.detect_outliers(df, selected_columns)
-    
+
+    # Handle outliers in the DataFrame
     def handle_outliers(self, df, selected_columns, method='remove'):
         outliers = self.detect_outliers(df, selected_columns)
         outlier_count = outliers.sum(axis=1)
