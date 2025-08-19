@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from abc import ABC, abstractmethod
 
-
+# DataIngestor means loading data from various sources
 class DataIngestor(ABC):
     @abstractmethod
     def ingest(self, file_path_or_link: str) ->pd.DataFrame:
