@@ -7,10 +7,10 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'src'))
 from data_ingestion import DataIngestorCSV
 from handle_missing_values import DropMissingValuesStrategy, FillMissingValuesStrategy, GenderImputer
 from outlier_detection import OutlierDetector, IQROutlierDetection
-from feature_binning import CustomBinningStratergy
-from feature_encoding import OrdinalEncodingStratergy, NominalEncodingStrategy
-from feature_scaling import MinMaxScalingStratergy
-from data_spiltter import SimpleTrainTestSplitStratergy
+from feature_binning import CustomBinningStrategy
+from feature_encoding import OrdinalEncodingStrategy, NominalEncodingStrategy
+from feature_scaling import MinMaxScalingStrategy
+from data_spiltter import SimpleTrainTestSplitStrategy
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
 from config import get_data_paths, get_columns, get_missing_values_config, get_outlier_config, get_binning_config, get_encoding_config, get_scaling_config, get_splitting_config
 
@@ -83,21 +83,21 @@ def data_pipeline(
 
     print('\nStep 4: Feature Binning')
 
-    binning = CustomBinningStratergy(binning_config['credit_score_bins'])
+    binning = CustomBinningStrategy(binning_config['credit_score_bins'])
     df = binning.bin_feature(df, 'CreditScore')
     print(f"data after feature binning: \n{df.head()}")
 
     print('\nStep 5: Feature Encoding')
 
     nominal_strategy = NominalEncodingStrategy(encoding_config['nominal_columns'])
-    ordinal_strategy = OrdinalEncodingStratergy(encoding_config['ordinal_mappings'])
+    ordinal_strategy = OrdinalEncodingStrategy(encoding_config['ordinal_mappings'])
 
     df = nominal_strategy.encode(df)
     df = ordinal_strategy.encode(df)
     print(f"data after feature encoding: \n{df.head()}")
 
     print('\nStep 6: Feature Scaling')
-    minmax_strategy = MinMaxScalingStratergy()
+    minmax_strategy = MinMaxScalingStrategy()
     df = minmax_strategy.scale(df, scaling_config['columns_to_scale'])
     print(f"data after feature scaling: \n{df.head()}")
 
@@ -106,7 +106,7 @@ def data_pipeline(
     print(f"data after post processing: \n{df.head()}")
 
     print('\nStep 8: Data Splitting')
-    splitting_stratergy = SimpleTrainTestSplitStratergy(test_size=splitting_config['test_size'])
+    splitting_stratergy = SimpleTrainTestSplitStrategy(test_size=splitting_config['test_size'])
     X_train, X_test, Y_train, Y_test = splitting_stratergy.split_data(df, 'Exited')
 
     X_train.to_csv(x_train_path, index=False)
