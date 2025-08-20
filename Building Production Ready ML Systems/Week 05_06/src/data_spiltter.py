@@ -7,22 +7,23 @@ from sklearn.model_selection import train_test_split
 logging.basicConfig(level=logging.INFO, format=
     '%(asctime)s - %(levelname)s - %(message)s')
 
-
+# Data Splitting Strategy Interface
 class DataSplittingStrategy(ABC):
     @abstractmethod
     def split_data(self, df: pd.DataFrame, target_column: str) ->Tuple[pd.
         DataFrame, pd.DataFrame, pd.Series, pd.Series]:
         pass
 
-
+# Split Types
 class SplitType(str, Enum):
     SIMPLE = 'simple' # Simple Splitter I utilized
     STRATIFIED = 'stratified'
 
-class SimpleTrainTestSplitStratergy(DataSplittingStrategy):
+# Simple Train-Test Split Strategy
+class SimpleTrainTestSplitStrategy(DataSplittingStrategy):
     def __init__(self, test_size = 0.2):
         self.test_size= test_size 
-
+    # Abstract method implementation
     def split_data(self, df, target_column):
         Y = df[target_column]
         X = df.drop(columns=[target_column])
