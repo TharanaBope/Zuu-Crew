@@ -80,3 +80,5 @@ config/database.yml
 *.pem
 *.key
 *.crt
+# pdf files
+*.pdf
