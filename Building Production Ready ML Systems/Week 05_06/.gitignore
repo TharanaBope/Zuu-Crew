@@ -1,0 +1,32 @@
+# Virtual environment
+.venv/
+
+# Environment variables
+.env
+.env.local
+
+# ML artifacts and models
+artifacts/
+mlruns/
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*.pyc
+
+# Processed data
+data/processed/
+
+# Zip files
+*.zip
+
+# Temporary CSV files
+temp_*.csv
+*_imputed.csv
+
+# PDF files
+*.pdf
+
+# OS generated files
+.DS_Store
+Thumbs.db

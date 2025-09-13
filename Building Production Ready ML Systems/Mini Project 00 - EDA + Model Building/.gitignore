@@ -1,0 +1,15 @@
+# Archive files
+*.7z
+*.zip
+*.rar
+
+# Excel files (if temporary/processed)
+*.xls
+*.xlsx
+
+# PDF files
+*.pdf
+
+# OS generated files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,18 @@
+# Environment variables
+.env
+.env.local
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Processed data (keep raw data, ignore processed)
+Data/Processed/
+
+# PDF files
+*.pdf
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+Sir's Notebooks/

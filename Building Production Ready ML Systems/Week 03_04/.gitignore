@@ -1,0 +1,15 @@
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# ML artifacts and models
+Artifacts/
+*.npz
+
+# PDF files
+*.pdf
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+Sir's Notebooks/
