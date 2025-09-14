@@ -198,10 +198,10 @@ def log_model_metadata(model, model_name: str, model_params: dict, training_time
 
 
 def training_pipeline(
-                    data_path: str = 'data/raw/ChurnModelling.csv',
+                    data_path: str = 'Week 05_06/data/raw/ChurnModelling.csv',
                     model_params: Optional[Dict[str, Any]] = None,
                     test_size: float = 0.2, random_state: int = 42,
-                    model_path: str = 'artifacts/models/churn_analysis.joblib',
+                    model_path: str = 'Week 05_06/artifacts/models/churn_analysis.joblib',
                     ):
     # if (not os.path.exists(get_data_paths()['X_train'])) or \
     #     (not os.path.exists(get_data_paths()['X_test'])) or \
@@ -306,7 +306,9 @@ def training_pipeline(
         'max_depth': model.max_depth if hasattr(model, 'max_depth') else 0
     })
     
-    mlflow_tracker.log_training_metrics(model, evaluation_results_cp, model_config)
+    # Create input example for model signature
+    input_example = X_test.iloc[:5].values if len(X_test) >= 5 else X_test.iloc[:1].values
+    mlflow_tracker.log_training_metrics(model, evaluation_results_cp, model_config, input_example=input_example)
     
     # Log training summary
     training_summary = {
